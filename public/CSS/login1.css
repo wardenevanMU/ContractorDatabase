@@ -1,0 +1,46 @@
+/* Reset some default styles for the list */
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Style the header and navbar */
+header {
+    background-color: #333; /* Background color of the navbar */
+    color: #fff; /* Text color */
+    padding: 10px 0; /* Add some padding to the top and bottom */
+}
+
+.container {
+    max-width: 1200px; /* Set a maximum width for the content */
+    margin: 0 auto; /* Center the content horizontally */
+    display: flex;
+    justify-content: space-between; /* Space out the logo and navigation links */
+    align-items: center; /* Vertically center the content */
+}
+
+h1 {
+    margin: 0;
+}
+
+ul li {
+    display: inline; /* Display list items horizontally */
+    margin-right: 20px; /* Add some spacing between list items */
+}
+
+ul li:last-child {
+    margin-right: 0; /* Remove margin from the last list item */
+}
+
+/* Style the links */
+a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+}
+
+/* Change link color on hover */
+a:hover {
+    color: #ff5733; /* Change to your desired hover color */
+}
