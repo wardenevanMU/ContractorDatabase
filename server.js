@@ -38,6 +38,26 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(methodOverride('_method'));
 
+const { auth } = require('express-openid-connect');
+
+const config = {
+  authRequired: false,
+  auth0Logout: true,
+  secret: 'a long, randomly-generated string stored in env',
+  baseURL: 'http://localhost:3000',
+  clientID: 'dDx5cVtlA2u2EF6VQl4ENiCRS5EXFA6I',
+  issuerBaseURL: 'https://dev-odxp522sgzav5c5t.us.auth0.com'
+};
+
+// auth router attaches /login, /logout, and /callback routes to the baseURL
+app.use(auth(config));
+
+// req.isAuthenticated is provided from the auth router
+app.get('/', (req, res) => {
+  res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
+});
+
+
 app.get('/', checkAuthenticated, (req, res) => {
   res.render('index.ejs', { name: req.user.name, email: req.user.email, password: req.user.password });
 });
