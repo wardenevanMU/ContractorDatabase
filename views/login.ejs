@@ -15,7 +15,7 @@
     <title>Login Page</title>
     <style>
         a {
-            color: white;
+            color: black;
         }
     </style>
 </head>
@@ -35,32 +35,16 @@
                 </div>
             </nav>
         </header>
+        <div class="half-circle"></div>
         <div class="container">
             <div class="login-card">
                 <i class="fa-solid fa-code" id="logo"></i>
                 <h3>Welcome</h3>
-                <div class="login-fields">
-                        <form action="/login" method="POST">
-                            <div class="icon-inside">
-                                <label for="email"></label>
-                                <input type="text" id="email" name="email" required placeholder="Email">
-                                <i class="fa-sharp fa-solid fa-envelope input-icon"></i>
-                            </div>
-                            <div class="icon-inside">
-                                <label for="password"></label>
-                                <input type="text" id="password" name="password" required placeholder="Password">
-                                <i class="fa-sharp fa-solid fa-lock"></i>
-                            </div>
-                            <button type="submit" id="login-button"><i class="fa-solid fa-right-to-bracket"></i>Login </button>
-                            <a href="/login" id="okta-sso-button" class="okta-button">Okta Single Sign On</a>
-                            <p id="new-acc">Don't have an account?<a href="register"> Sign Up</a> </p>
-                            <div class="error">
-                                <% if (messages.error) { %>
-                                    <%= messages.error %>
-                                        <% } %>
-                            </div>
-                        </div> 
-                    </div>
+                <a href="/login" id="okta-sso-button" class="okta-button">Okta Single Sign On</a>
+                <div class="error">
+                    <% if (messages.error) { %>
+                        <%= messages.error %>
+                            <% } %>
                 </div>
             </div>
         </div>

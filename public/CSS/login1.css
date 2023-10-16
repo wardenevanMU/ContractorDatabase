@@ -7,8 +7,8 @@ ul {
 
 /* Style the header and navbar */
 header {
-    background-color: #333; /* Background color of the navbar */
-    color: #fff; /* Text color */
+    background-color: rgb(255, 255, 255); /* Background color of the navbar */
+    color: #00778F; /* Text color */
     padding: 10px 0; /* Add some padding to the top and bottom */
 }
 
@@ -26,7 +26,7 @@ h1 {
 
 ul li {
     display: inline; /* Display list items horizontally */
-    margin-right: 20px; /* Add some spacing between list items */
+     /* Add some spacing between list items */
 }
 
 ul li:last-child {
@@ -36,11 +36,11 @@ ul li:last-child {
 /* Style the links */
 a {
     text-decoration: none;
-    color: #fff;
+    color: #000000;
     font-weight: bold;
 }
 
 /* Change link color on hover */
 a:hover {
-    color: #ff5733; /* Change to your desired hover color */
+    color: gray; /* Change to your desired hover color */
 }

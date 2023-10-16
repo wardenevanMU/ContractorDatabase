@@ -52,10 +52,14 @@ const config = {
 // auth router attaches /login, /logout, and /callback routes to the baseURL
 app.use(auth(config));
 
-// req.isAuthenticated is provided from the auth router
-//app.get('/', (req, res) => {
-  //res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
-//});
+//req.isAuthenticated is provided from the auth router
+app.get('/', (req, res) => {
+  if (req.oidc.isAuthenticated()){
+    res.render('index.ejs');
+  } else{
+    res.render('login.ejs')
+  };
+});
 
 const { requiresAuth } = require('express-openid-connect');
 
@@ -67,13 +71,13 @@ app.get('/login', checkNotAuthenticated, (req, res) => {
   res.render('login.ejs');
 });
 
-app.get('/authorization-code/callback', (req, res, next) => {
-  passport.authenticate('oidc', {
-    successRedirect: '/index',
-    failureRedirect: '/login',
-    failureFlash: true
-  })(req, res, next);
-});
+//app.get('/authorization-code/callback', (req, res, next) => {
+  //passport.authenticate('oidc', {
+    //successRedirect: '/index',
+    //failureRedirect: '/login',
+    //failureFlash: true
+  //})(req, res, next);
+//});
 
 app.get('/', (req, res) => {
   res.render('login.ejs');
