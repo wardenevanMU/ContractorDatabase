@@ -53,9 +53,9 @@ const config = {
 app.use(auth(config));
 
 // req.isAuthenticated is provided from the auth router
-app.get('/', (req, res) => {
-  res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
-});
+//app.get('/', (req, res) => {
+  //res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
+//});
 
 const { requiresAuth } = require('express-openid-connect');
 
@@ -63,14 +63,22 @@ app.get('/profile', requiresAuth(), (req, res) => {
   res.send(JSON.stringify(req.oidc.user));
 });
 
-
-app.get('/', checkAuthenticated, (req, res) => {
-  res.render('index.ejs', { name: req.user.name, email: req.user.email, password: req.user.password });
-});
-
 app.get('/login', checkNotAuthenticated, (req, res) => {
   res.render('login.ejs');
 });
+
+app.get('/authorization-code/callback', (req, res, next) => {
+  passport.authenticate('oidc', {
+    successRedirect: '/index',
+    failureRedirect: '/login',
+    failureFlash: true
+  })(req, res, next);
+});
+
+app.get('/', (req, res) => {
+  res.render('login.ejs');
+});
+
 
 // 1. Access the CSS and JS files in the public folder
 app.use(express.static('public'));
@@ -78,11 +86,11 @@ app.use('/css', express.static(__dirname + 'public/CSS'));
 app.use('/js', express.static(__dirname + 'public/JS'));
 app.use('/txt', express.static(__dirname + 'public/JS'));
 
-app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
-  successRedirect: '/',
-  failureRedirect: '/login',
-  failureFlash: true
-}));
+//app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
+  //successRedirect: '/',
+  //failureRedirect: '/login',
+  //failureFlash: true
+//}));
 
 app.get('/register', checkNotAuthenticated, (req, res) => {
   res.render('register.ejs');
@@ -151,22 +159,12 @@ function checkNotAuthenticated(req, res, next) {
   next();
 }
 
+app.get('/index', checkAuthenticated, (req, res) => {
+  res.render('index.ejs')
+});
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
 
-app.get('/', function(req, res){
-  con.query('select * from customer', (err, rows) => {
-    if(err) throw console.error("error");
-
-    if(!err){
-      console.log(rows.length);
-      res.render('index.ejs', {rows});
-    }
-  });
-});
-
 module.exports = app;
-
-
-

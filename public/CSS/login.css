@@ -74,6 +74,20 @@ input:focus {
     border-radius: 30px;
 
 }
+#okta-sso-button{
+    font-size: 19px;
+    background-color: #0f0f0f;
+    color: white;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 40px;
+    cursor: pointer;
+    display: block;
+    width: 230px;
+    height: 50px;
+    border: none;
+    border-radius: 30px;
+}
 
 #login-button i {
     padding-right: 10px;
