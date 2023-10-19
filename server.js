@@ -4,7 +4,36 @@ if (process.env.NODE_ENV !== 'production') {
 
 const express = require('express');
 const app = express();
+const mongoose = require('mongoose')
 const port = 3000;
+//Will need to change the password in order to connect to the database
+const uri = 'mongodb+srv://databaseAdminCLT:<password>@capstonecluster.ddjdvfl.mongodb.net/?retryWrites=true&w=majority';
+
+const contractorSchema = new mongoose.Schema({
+  id: String,
+  first_name: String,
+  last_name: String,
+  company: String,
+  items: String,
+  location: String,
+  start_time: String,
+  end_time: String,
+  date: String,
+  agent: String
+});
+
+const Contractor = mongoose.model('contractorcollection', contractorSchema);
+module.exports = Contractor;
+async function connect(){
+  try{
+    await mongoose.connect(uri)
+    console.log("Connected to Database");
+  }catch(error){
+    console.error(error);
+  }
+}
+
+connect();
 
 const bcrypt = require('bcrypt');
 const passport = require('passport');
@@ -53,9 +82,16 @@ const config = {
 app.use(auth(config));
 
 //req.isAuthenticated is provided from the auth router
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
   if (req.oidc.isAuthenticated()){
-    res.render('index.ejs');
+    try{
+      const data = await Contractor.find({});
+
+      res.render('index.ejs', {data: data});
+    }catch(error){
+      console.error('Error fetching data from MongoDB: ', error);
+      res.status(500).send('Internal Server Error')
+    }
   } else{
     res.render('login.ejs')
   };
@@ -71,13 +107,13 @@ app.get('/login', checkNotAuthenticated, (req, res) => {
   res.render('login.ejs');
 });
 
-//app.get('/authorization-code/callback', (req, res, next) => {
-  //passport.authenticate('oidc', {
-    //successRedirect: '/index',
-    //failureRedirect: '/login',
-    //failureFlash: true
-  //})(req, res, next);
-//});
+/*app.get('/authorization-code/callback', (req, res, next) => {
+  passport.authenticate('oidc', {
+    successRedirect: '/index',
+    failureRedirect: '/login',
+    failureFlash: true
+  })(req, res, next);
+});*/
 
 app.get('/', (req, res) => {
   res.render('login.ejs');
@@ -90,14 +126,14 @@ app.use('/css', express.static(__dirname + 'public/CSS'));
 app.use('/js', express.static(__dirname + 'public/JS'));
 app.use('/txt', express.static(__dirname + 'public/JS'));
 
-//app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
-  //successRedirect: '/',
-  //failureRedirect: '/login',
-  //failureFlash: true
-//}));
+/*app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
+  successRedirect: '/',
+  failureRedirect: '/login',
+  failureFlash: true
+}));
 
 app.get('/register', checkNotAuthenticated, (req, res) => {
-  res.render('register.ejs');
+/res.render('register.ejs');
 });
 
 app.post('/register', checkNotAuthenticated, async (req, res) => {
@@ -145,7 +181,7 @@ app.delete('/logout', (req, res) => {
   });
 
   res.redirect('/login');
-});
+});*/
 
 function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
@@ -163,9 +199,22 @@ function checkNotAuthenticated(req, res, next) {
   next();
 }
 
-app.get('/index', checkAuthenticated, (req, res) => {
-  res.render('index.ejs')
-});
+//app.get('/index', checkAuthenticated, async (req, res) => {
+  //try {
+    //const db = client.db("CapstoneCluster"); // Replace with your actual database name
+    //const collection = db.collection("contractorcollection"); // Replace with your collection name
+
+    // Query the database to fetch data (you can add a more specific query)
+    //const data = await collection.find({}).toArray();
+
+    // Render the 'index.ejs' template with the fetched data
+    //res.render('index.ejs', { data: data });
+  //} catch (error) {
+    //console.error('Error fetching data from MongoDB:', error);
+    //res.status(500).send('Internal Server Error');
+  //}
+//});
+
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
