@@ -7,7 +7,7 @@ const app = express();
 const mongoose = require('mongoose')
 const port = 3000;
 //Will need to change the password in order to connect to the database
-const uri = 'mongodb+srv://databaseAdminCLT:<yourpassword>@capstonecluster.ddjdvfl.mongodb.net/?retryWrites=true&w=majority';
+const uri = 'mongodb+srv://databaseAdminCLT:<password>@capstonecluster.ddjdvfl.mongodb.net/?retryWrites=true&w=majority';
 
 const contractorSchema = new mongoose.Schema({
   id: String,
@@ -108,13 +108,10 @@ app.get('/login', checkNotAuthenticated, (req, res) => {
   res.render('login.ejs');
 });
 
-/*app.get('/authorization-code/callback', (req, res, next) => {
-  passport.authenticate('oidc', {
-    successRedirect: '/index',
-    failureRedirect: '/login',
-    failureFlash: true
-  })(req, res, next);
-});*/
+app.get('/logout', (req, res) =>{
+  req.logout();
+  res.render('login.ejs')
+});
 
 app.get('/', (req, res) => {
   res.render('login.ejs');
@@ -127,62 +124,6 @@ app.use('/css', express.static(__dirname + 'public/CSS'));
 app.use('/js', express.static(__dirname + 'public/JS'));
 app.use('/txt', express.static(__dirname + 'public/JS'));
 
-/*app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
-  successRedirect: '/',
-  failureRedirect: '/login',
-  failureFlash: true
-}));
-
-app.get('/register', checkNotAuthenticated, (req, res) => {
-/res.render('register.ejs');
-});
-
-app.post('/register', checkNotAuthenticated, async (req, res) => {
-  try {
-    var name = req.body.name;
-    var email = req.body.email;
-    var sql = `INSERT INTO customer (name, email) VALUES ("${name}", "${email}")`;
-    db.query(sql, function (err, res) {
-      if (err) throw err;
-      console.log('Row has been updated');
-      req.flash('success', 'Data stored!');
-    });
-
-    const hashedPassword = await bcrypt.hash(req.body.password, 10); // Use a salt factor (e.g., 10)
-    usrs.push({
-      id: Date.now().toString(),
-      name: req.body.name,
-      email: req.body.email,
-      password: hashedPassword
-    });
-
-    res.redirect('/login');
-  } catch {
-    res.redirect('/register');
-  }
-});
-
-app.post('/register', function (req, res, next) {
-  var name = req.body.name;
-  var email = req.body.email;
-  var sql = `INSERT INTO customer (name, email) VALUES ("${name}", "${email}")`;
-  db.query(sql, function (err, res) {
-    if (err) throw err;
-    console.log('Row has been updated');
-    req.flash('success', 'Data stored!');
-    res.redirect('/login');
-  });
-});
-
-app.delete('/logout', (req, res) => {
-  req.logout(function(err) {
-    if(err){
-      return next(err);
-    }
-  });
-
-  res.redirect('/login');
-});*/
 
 function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
@@ -199,22 +140,6 @@ function checkNotAuthenticated(req, res, next) {
 
   next();
 }
-
-//app.get('/index', checkAuthenticated, async (req, res) => {
-  //try {
-    //const db = client.db("CapstoneCluster"); // Replace with your actual database name
-    //const collection = db.collection("contractorcollection"); // Replace with your collection name
-
-    // Query the database to fetch data (you can add a more specific query)
-    //const data = await collection.find({}).toArray();
-
-    // Render the 'index.ejs' template with the fetched data
-    //res.render('index.ejs', { data: data });
-  //} catch (error) {
-    //console.error('Error fetching data from MongoDB:', error);
-    //res.status(500).send('Internal Server Error');
-  //}
-//});
 
 
 app.listen(port, () => {
