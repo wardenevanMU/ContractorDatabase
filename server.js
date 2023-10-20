@@ -7,7 +7,7 @@ const app = express();
 const mongoose = require('mongoose')
 const port = 3000;
 //Will need to change the password in order to connect to the database
-const uri = 'mongodb+srv://databaseAdminCLT:<password>@capstonecluster.ddjdvfl.mongodb.net/?retryWrites=true&w=majority';
+const uri = 'mongodb+srv://databaseAdminCLT:nRFWz4nyvtTbd9Bj@capstonecluster.ddjdvfl.mongodb.net/?retryWrites=true&w=majority';
 
 const contractorSchema = new mongoose.Schema({
   id: String,
@@ -85,9 +85,10 @@ app.use(auth(config));
 app.get('/', async (req, res) => {
   if (req.oidc.isAuthenticated()){
     try{
-      const data = await Contractor.find({});
+      const agentEmail = req.oidc.user.email; //Gives the user's email after successful login
+      const data = await Contractor.find({agent_email: agentEmail});
 
-      res.render('index.ejs', {data: data});
+      res.render('index.ejs', {data: data, agent_email: agentEmail});
     }catch(error){
       console.error('Error fetching data from MongoDB: ', error);
       res.status(500).send('Internal Server Error')

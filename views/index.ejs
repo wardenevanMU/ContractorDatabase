@@ -1,5 +1,6 @@
 <html>
 <body>
+  <h1>Welcome <%= agent_email%></h1>
   <% if (data && data.length > 0) { %>
     <table>
       <thead>
@@ -13,7 +14,6 @@
           <th>Start Time</th>
           <th>End Time</th>
           <th>Date</th>
-          <th>Agent</th>
         </tr>
       </thead>
       <tbody>
@@ -28,7 +28,6 @@
             <td><%= item.start_time %></td>
             <td><%= item.end_time %></td>
             <td><%= item.date %></td>
-            <td><%= item.agent %></td>
           </tr>
         <% }); %>
       </tbody>
