@@ -7,7 +7,7 @@ const app = express();
 const mongoose = require('mongoose')
 const port = 3000;
 //Will need to change the password in order to connect to the database
-const uri = 'mongodb+srv://databaseAdminCLT:<password>@capstonecluster.ddjdvfl.mongodb.net/?retryWrites=true&w=majority';
+const uri = 'mongodb+srv://databaseAdminCLT:<yourpassword>@capstonecluster.ddjdvfl.mongodb.net/?retryWrites=true&w=majority';
 
 const contractorSchema = new mongoose.Schema({
   id: String,
@@ -74,8 +74,8 @@ const config = {
   auth0Logout: true,
   secret: 'a long, randomly-generated string stored in env',
   baseURL: 'http://localhost:3000',
-  clientID: 'dDx5cVtlA2u2EF6VQl4ENiCRS5EXFA6I',
-  issuerBaseURL: 'https://dev-odxp522sgzav5c5t.us.auth0.com'
+  clientID: 'thisisaclientid',
+  issuerBaseURL: 'thisisaurl'
 };
 
 // auth router attaches /login, /logout, and /callback routes to the baseURL
@@ -97,6 +97,36 @@ app.get('/', async (req, res) => {
     res.render('login.ejs')
   };
 });
+
+app.get('/auth/duo', async (req, res) => {
+  if (req.oidc.isAuthenticated()) {
+    try {
+      const agentEmail = req.oidc.user.email; // Get the user's email after Auth0 login
+
+      // Check if the user is already authenticated with Duo, if not, initiate Duo MFA
+      if (!userHasCompletedDuoMFA(agentEmail)) {
+        // Generate a Duo state
+        const state = duoClient.generateState();
+  
+        // Create an authentication URL for the user
+        const authUrl = duoClient.createAuthUrl(agentEmail, state);
+  
+        // Redirect the user to the Duo authentication page
+        res.redirect(authUrl);
+      } else {
+        // The user has already completed Duo MFA, so you can redirect them to the desired page.
+        res.redirect('/dashboard');
+      }
+    } catch (error) {
+      console.error('Error during Duo MFA initiation:', error);
+      res.status(500).send('Duo MFA Error');
+    }
+  } else {
+    // User is not authenticated with Auth0, handle this case
+    res.status(401).send('Not authenticated with Auth0');
+  }
+});
+
 
 const { requiresAuth } = require('express-openid-connect');
 
