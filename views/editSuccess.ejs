@@ -1,0 +1,20 @@
+<html>
+  <body>
+    <h1>Contractor Successfully Updated</h1>
+    <p>The following contractor has been updated in the database:</p>
+    <ul>
+      <li>First Name: <%= updatedData.first_name %></li>
+      <li>Last Name: <%= updatedData.last_name %></li>
+      <li>Company: <%= updatedData.company %></li>
+      <li>Items: <%= updatedData.items %></li>
+      <li>Location: <%= updatedData.location %></li>
+      <li>Start Time: <%= updatedData.start_time %></li>
+      <li>End Time: <%= updatedData.end_time %></li>
+      <li>Date: <%= updatedData.date %></li>
+      
+    </ul>
+
+    <a href="/edit/<%= updatedData.id %>">Edit Contractor</a>
+    <a href="/">Back to Home</a>
+  </body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Success</title>
+</head>
+<body>
+    <h1>Contractor Added Successfully</h1>
+    <p>The following contractor has been added to the database:</p>
+    <ul>
+        <li>First Name: <%= newData.first_name %></li>
+        <li>Last Name: <%= newData.last_name %></li>
+        <li>Company: <%= newData.company %></li>
+        <li>Items: <%= newData.items %></li>
+        <li>Location: <%= newData.location %></li>
+        <li>Start Time: <%= newData.start_time %></li>
+        <li>End Time: <%= newData.end_time %></li>
+        <li>Date: <%= newData.date %></li>
+    </ul>
+
+    <a href="/edit/<%= newData.id %>">Edit Entry</a>
+    <a href="/">Return to Index</a>
+</body>
+</html>

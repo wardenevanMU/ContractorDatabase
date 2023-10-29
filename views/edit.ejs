@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Contractor</title>
+</head>
+<body>
+    <h1>Edit Contractor</h1>
+    <form action="/edit/<%= contractor.id %>" method="post">
+        <label for="first_name">First Name:</label>
+        <input type="text" name="first_name" value="<%= contractor.first_name %>" required>
+        <label for="last_name">Last Name:</label>
+        <input type="text" name="last_name" value="<%= contractor.last_name %>" required>
+        <label for="company">Company:</label>
+        <input type="text" name="company" value="<%= contractor.company %>" required>
+        <label for="items">Items:</label>
+        <input type="text" name="items" value="<%= contractor.items %>" required>
+        <label for="location">Location:</label>
+        <input type="text" name="location" value="<%= contractor.location %>" required>
+        <label for="start_time">Start Time:</label>
+        <input type="text" name="start_time" value="<%= contractor.start_time %>" required>
+        <label for="end_time">End Time:</label>
+        <input type="text" name="end_time" value="<%= contractor.end_time %>" required>
+        <label for="date">Date:</label>
+        <input type="text" name="date" value="<%= contractor.date %>" required>
+        
+        <button type="submit">Save Changes</button>
+    </form>
+    <a href="/">Return to Index</a>
+</body>
+</html>

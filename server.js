@@ -7,7 +7,7 @@ const app = express();
 const mongoose = require('mongoose')
 const port = 3000;
 //Will need to change the password in order to connect to the database
-const uri = 'mongodb+srv://databaseAdminCLT:<yourpassword>@capstonecluster.ddjdvfl.mongodb.net/?retryWrites=true&w=majority';
+const uri = 'mongodb+srv://<yourusername>:<yourpassword>@capstonecluster.ddjdvfl.mongodb.net/?retryWrites=true&w=majority';
 
 const contractorSchema = new mongoose.Schema({
   id: String,
@@ -19,7 +19,7 @@ const contractorSchema = new mongoose.Schema({
   start_time: String,
   end_time: String,
   date: String,
-  agent: String
+  agent_email: String
 });
 
 const Contractor = mongoose.model('contractorcollection', contractorSchema);
@@ -74,8 +74,8 @@ const config = {
   auth0Logout: true,
   secret: 'a long, randomly-generated string stored in env',
   baseURL: 'http://localhost:3000',
-  clientID: 'thisisaclientid',
-  issuerBaseURL: 'thisisaurl'
+  clientID: 'yourclientID',
+  issuerBaseURL: 'yourissuerBaseURL'
 };
 
 // auth router attaches /login, /logout, and /callback routes to the baseURL
@@ -86,7 +86,7 @@ app.get('/', async (req, res) => {
   if (req.oidc.isAuthenticated()){
     try{
       const agentEmail = req.oidc.user.email; //Gives the user's email after successful login
-      const data = await Contractor.find({agent_email: agentEmail});
+      const data = await Contractor.find({agent_email: agentEmail}).sort({id: -1});
 
       res.render('index.ejs', {data: data, agent_email: agentEmail});
     }catch(error){
@@ -96,6 +96,100 @@ app.get('/', async (req, res) => {
   } else{
     res.render('login.ejs')
   };
+});
+
+app.post('/search', async (req, res) => {
+  const searchQuery = req.body.searchQuery;
+  const agentEmail = req.oidc.user.email;
+
+  try {
+    const data = await Contractor.find({
+      agent_email: agentEmail,
+      $or: [
+        { first_name: { $regex: searchQuery, $options: 'i' } },
+        { last_name: { $regex: searchQuery, $options: 'i' } },
+        { company: { $regex: searchQuery, $options: 'i' } },
+        { date: { $regex: searchQuery, $options: 'i' } }
+      ]
+    });
+
+    // Render the "search" EJS template with the search results and search query
+    res.render('search.ejs', { data: data, searchQuery: searchQuery });
+  } catch (error) {
+    console.error('Error searching data from MongoDB: ', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
+
+
+async function generateNewID() {
+  const count = await Contractor.countDocuments();
+  return count + 1;
+}
+
+app.post('/add', async (req, res) => {
+  const newData = req.body;
+  newData.id = await generateNewID();
+  newData.agent_email = req.oidc.user.email;
+
+  try {
+      const result = await Contractor.create(newData);
+      
+      // Render the success page with the newly added data
+      res.render('success.ejs', { newData: newData });
+  } catch (error) {
+      console.error('Error adding data to MongoDB: ', error);
+
+      // Set an error flash message
+      req.flash('error', 'Error adding contractor to the database.');
+
+      res.status(500).send('Internal Server Error');
+  }
+});
+
+//Checks if the user is authenticated before redirecting to edit page
+function checkAuthenticatedForEdit(req, res, next) {
+  if (req.oidc.isAuthenticated()) {
+    return next();
+  }
+
+  // User will be forced to sign in
+  res.redirect('/login');
+}
+
+app.get('/edit/:id', checkAuthenticatedForEdit, async (req, res) => {
+  const contractorId = req.params.id;
+
+  try {
+    const contractor = await Contractor.findOne({ id: contractorId });
+
+    if (!contractor) {
+      // Contractor not found, handle this case (e.g., display an error message)
+      res.status(404).send('Contractor not found');
+    } else {
+      res.render('edit.ejs', { contractor: contractor });
+    }
+  } catch (error) {
+    console.error('Error fetching contractor data: ', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.post('/edit/:id', async (req, res) => {
+  const contractorId = req.params.id;
+  const updatedData = req.body; // Data submitted from the edit form
+
+  try {
+      await Contractor.updateOne({ id: contractorId }, updatedData);
+
+      // Render the success page after updating the data and pass updatedData to the template
+      res.render('editSuccess.ejs', { updatedData: updatedData });
+  } catch (error) {
+      console.error('Error updating contractor data: ', error);
+      res.status(500).send('Internal Server Error');
+  }
 });
 
 app.get('/auth/duo', async (req, res) => {
@@ -129,6 +223,7 @@ app.get('/auth/duo', async (req, res) => {
 
 
 const { requiresAuth } = require('express-openid-connect');
+const { Int32 } = require('mongodb');
 
 app.get('/profile', requiresAuth(), (req, res) => {
   res.send(JSON.stringify(req.oidc.user));

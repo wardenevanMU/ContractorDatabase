@@ -1,41 +1,37 @@
 <html>
-<body>
-  <h1>Welcome <%= agent_email%></h1>
-  <% if (data && data.length > 0) { %>
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Company</th>
-          <th>Items</th>
-          <th>Location</th>
-          <th>Start Time</th>
-          <th>End Time</th>
-          <th>Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% data.forEach(function(item) { %>
-          <tr>
-            <td><%= item.id %></td>
-            <td><%= item.first_name %></td>
-            <td><%= item.last_name %></td>
-            <td><%= item.company %></td>
-            <td><%= item.items %></td>
-            <td><%= item.location %></td>
-            <td><%= item.start_time %></td>
-            <td><%= item.end_time %></td>
-            <td><%= item.date %></td>
-          </tr>
-        <% }); %>
-      </tbody>
-    </table>
-  <% } else { %>
-    <p>No data available.</p>
-  <% } %>
+  <body>
+    <h1>Welcome <%= agent_email %></h1>
+    <form action="/search" method="post">
+      <label for="searchQuery">Search by:</label>
+      <select name="searchBy">
+        <option value="first_name">First Name</option>
+        <option value="last_name">Last Name</option>
+        <option value="company">Company</option>
+        <option value="date">Date</option>
+      </select>
+      <input type="text" name="searchQuery" id="searchQuery" placeholder="Enter search term">
+      <button type="submit">Search</button>
+    </form>
+    <form action="/add" method="post">
+      <label for="first_name">First Name:</label>
+      <input type="text" name="first_name" id="first_name" placeholder="Enter First Name">
+      <label for="last_name">Last Name:</label>
+      <input type="text" name="last_name" id="last_name" placeholder="Enter Last Name">
+      <label for="company">Company:</label>
+      <input type="text" name="company" id="company" placeholder="Enter Company">
+      <label for="items">Items:</label>
+      <input type="text" name="items" id="items" placeholder="Enter Items">
+      <label for="location">Location:</label>
+      <input type="text" name="location" id="location" placeholder="Enter Location">
+      <label for="start_time">Start Time:</label>
+      <input type="text" name="start_time" id="start_time" placeholder="Enter Start Time">
+      <label for="end_time">End Time:</label>
+      <input type="text" name="end_time" id="end_time" placeholder="Enter End Time">
+      <label for="date">Date:</label>
+      <input type="text" name="date" id="date" placeholder="Enter Date">
+      <button type="submit">Add Data</button>
+    </form>
 
-  <a href="/logout">Sign Out</a>
-</body>
+    <a href="/logout">Sign Out</a>
+  </body>
 </html>
