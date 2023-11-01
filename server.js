@@ -7,12 +7,11 @@ const app = express();
 const mongoose = require('mongoose')
 const port = 3000;
 //Will need to change the password in order to connect to the database
-const uri = 'mongodb+srv://<yourusername>:<yourpassword>@capstonecluster.ddjdvfl.mongodb.net/?retryWrites=true&w=majority';
+const uri = 'mongodb+srv://<yourusername>:yourpassword@capstonecluster.ddjdvfl.mongodb.net/?retryWrites=true&w=majority';
 
 const contractorSchema = new mongoose.Schema({
   id: String,
-  first_name: String,
-  last_name: String,
+  name: String,
   company: String,
   items: String,
   location: String,
@@ -86,7 +85,7 @@ app.get('/', async (req, res) => {
   if (req.oidc.isAuthenticated()){
     try{
       const agentEmail = req.oidc.user.email; //Gives the user's email after successful login
-      const data = await Contractor.find({agent_email: agentEmail}).sort({id: -1});
+      const data = await Contractor.find({agent_email: agentEmail});
 
       res.render('index.ejs', {data: data, agent_email: agentEmail});
     }catch(error){
@@ -106,8 +105,7 @@ app.post('/search', async (req, res) => {
     const data = await Contractor.find({
       agent_email: agentEmail,
       $or: [
-        { first_name: { $regex: searchQuery, $options: 'i' } },
-        { last_name: { $regex: searchQuery, $options: 'i' } },
+        { name: { $regex: searchQuery, $options: 'i' } },
         { company: { $regex: searchQuery, $options: 'i' } },
         { date: { $regex: searchQuery, $options: 'i' } }
       ]

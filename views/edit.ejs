@@ -6,10 +6,8 @@
 <body>
     <h1>Edit Contractor</h1>
     <form action="/edit/<%= contractor.id %>" method="post">
-        <label for="first_name">First Name:</label>
-        <input type="text" name="first_name" value="<%= contractor.first_name %>" required>
-        <label for="last_name">Last Name:</label>
-        <input type="text" name="last_name" value="<%= contractor.last_name %>" required>
+        <label for="name">Name:</label>
+        <input type="text" name="name" value="<%= contractor.first_name %>" required>
         <label for="company">Company:</label>
         <input type="text" name="company" value="<%= contractor.company %>" required>
         <label for="items">Items:</label>

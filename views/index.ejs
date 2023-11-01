@@ -4,8 +4,7 @@
     <form action="/search" method="post">
       <label for="searchQuery">Search by:</label>
       <select name="searchBy">
-        <option value="first_name">First Name</option>
-        <option value="last_name">Last Name</option>
+        <option value="name">Name</option>
         <option value="company">Company</option>
         <option value="date">Date</option>
       </select>
@@ -13,10 +12,8 @@
       <button type="submit">Search</button>
     </form>
     <form action="/add" method="post">
-      <label for="first_name">First Name:</label>
-      <input type="text" name="first_name" id="first_name" placeholder="Enter First Name">
-      <label for="last_name">Last Name:</label>
-      <input type="text" name="last_name" id="last_name" placeholder="Enter Last Name">
+      <label for="name">Name:</label>
+      <input type="text" name="name" id="name" placeholder="Enter Full Name">
       <label for="company">Company:</label>
       <input type="text" name="company" id="company" placeholder="Enter Company">
       <label for="items">Items:</label>
