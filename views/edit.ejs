@@ -7,7 +7,7 @@
     <h1>Edit Contractor</h1>
     <form action="/edit/<%= contractor.id %>" method="post">
         <label for="name">Name:</label>
-        <input type="text" name="name" value="<%= contractor.first_name %>" required>
+        <input type="text" name="name" value="<%= contractor.name %>" required>
         <label for="company">Company:</label>
         <input type="text" name="company" value="<%= contractor.company %>" required>
         <label for="items">Items:</label>
@@ -19,7 +19,7 @@
         <label for="end_time">End Time:</label>
         <input type="text" name="end_time" value="<%= contractor.end_time %>" required>
         <label for="date">Date:</label>
-        <input type="text" name="date" value="<%= contractor.date %>" required>
+        <input type="date" name="date" value="<%= contractor.date %>" required>
         
         <button type="submit">Save Changes</button>
     </form>

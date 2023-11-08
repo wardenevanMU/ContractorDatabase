@@ -24,6 +24,9 @@
               <td><%= item.start_time %></td>
               <td><%= item.end_time %></td>
               <td><%= item.date %></td>
+              <td>
+                <a href="/edit/<%= item.id %>">Edit</a>
+              </td>
             </tr>
           <% }); %>
         </tbody>

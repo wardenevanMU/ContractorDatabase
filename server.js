@@ -4,10 +4,11 @@ if (process.env.NODE_ENV !== 'production') {
 
 const express = require('express');
 const app = express();
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 const port = 3000;
+const moment = require('moment');
 //Will need to change the password in order to connect to the database
-const uri = 'mongodb+srv://<yourusername>:yourpassword@capstonecluster.ddjdvfl.mongodb.net/?retryWrites=true&w=majority';
+const uri = 'mongodb+srv://databaseAdminCLT:nRFWz4nyvtTbd9Bj@capstonecluster.ddjdvfl.mongodb.net/?retryWrites=true&w=majority';
 
 const contractorSchema = new mongoose.Schema({
   id: String,
@@ -73,8 +74,8 @@ const config = {
   auth0Logout: true,
   secret: 'a long, randomly-generated string stored in env',
   baseURL: 'http://localhost:3000',
-  clientID: 'yourclientID',
-  issuerBaseURL: 'yourissuerBaseURL'
+  clientID: 'dDx5cVtlA2u2EF6VQl4ENiCRS5EXFA6I',
+  issuerBaseURL: 'https://dev-odxp522sgzav5c5t.us.auth0.com'
 };
 
 // auth router attaches /login, /logout, and /callback routes to the baseURL
@@ -96,6 +97,7 @@ app.get('/', async (req, res) => {
     res.render('login.ejs')
   };
 });
+
 
 app.post('/search', async (req, res) => {
   const searchQuery = req.body.searchQuery;
@@ -122,6 +124,8 @@ app.post('/search', async (req, res) => {
 
 
 
+
+
 async function generateNewID() {
   const count = await Contractor.countDocuments();
   return count + 1;
@@ -132,18 +136,21 @@ app.post('/add', async (req, res) => {
   newData.id = await generateNewID();
   newData.agent_email = req.oidc.user.email;
 
+  // Format the date as "MM-DD-YYYY" before saving it
+  newData.date = moment(newData.date).format('MM-DD-YYYY');
+
   try {
-      const result = await Contractor.create(newData);
-      
-      // Render the success page with the newly added data
-      res.render('success.ejs', { newData: newData });
+    const result = await Contractor.create(newData);
+
+    // Render the success page with the newly added data
+    res.render('success.ejs', { newData: newData });
   } catch (error) {
-      console.error('Error adding data to MongoDB: ', error);
+    console.error('Error adding data to MongoDB: ', error);
 
-      // Set an error flash message
-      req.flash('error', 'Error adding contractor to the database.');
+    // Set an error flash message
+    req.flash('error', 'Error adding contractor to the database.');
 
-      res.status(500).send('Internal Server Error');
+    res.status(500).send('Internal Server Error');
   }
 });
 
@@ -178,6 +185,9 @@ app.get('/edit/:id', checkAuthenticatedForEdit, async (req, res) => {
 app.post('/edit/:id', async (req, res) => {
   const contractorId = req.params.id;
   const updatedData = req.body; // Data submitted from the edit form
+
+  // Convert the date from "YYYY-MM-DD" to "MM-DD-YYYY" format
+  updatedData.date = moment(updatedData.date).format('MM-DD-YYYY');
 
   try {
       await Contractor.updateOne({ id: contractorId }, updatedData);
