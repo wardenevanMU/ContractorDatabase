@@ -7,6 +7,7 @@ const app = express();
 const mongoose = require('mongoose');
 const port = 3000;
 const moment = require('moment');
+
 //Will need to change the password in order to connect to the database
 const uri = 'mongodb+srv://databaseAdminCLT:nRFWz4nyvtTbd9Bj@capstonecluster.ddjdvfl.mongodb.net/?retryWrites=true&w=majority';
 
@@ -97,6 +98,17 @@ app.get('/', async (req, res) => {
     res.render('login.ejs')
   };
 });
+
+app.get('/callback', (req, res) => {
+  // Check if there was an error in the authentication flow
+  if (req.query.error === 'BadRequestError') {
+    // Render the custom error page with an access denied message
+    res.render('accessDenied.ejs');
+  } else {
+    res.render('login.ejs');
+  }
+});
+
 
 
 app.post('/search', async (req, res) => {

@@ -1,0 +1,132 @@
+body {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    background-color: #2980b9;
+    justify-content: space-between;
+    min-height: 100vh;
+}
+
+.content {
+    width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+}
+
+h1 {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-align: center;
+}
+
+h2 {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-align: center;
+}
+
+.edit-form {
+    margin-top: 20px;
+}
+
+.form-group {
+    margin-bottom: 30px;
+}
+
+label {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="date"] {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    width: calc(100% - 10px);
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+button {
+    padding: 8px 20px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+.searchBy{
+    padding-bottom: 10px;
+}
+
+.sidebar {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    width: 200px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 130vh;
+}
+
+.sidebar a {
+    text-decoration: none;
+    display: block;
+    margin: 10px 0;
+    color: #fff;
+}
+
+.sidebar img {
+    max-width: 20px;
+    max-height: 20px;
+    margin-right: 5px;
+}
+
+
+.fa {
+    padding: 20px;
+    font-size: 30px;
+    width: 50px;
+    text-align: center;
+    text-decoration: none;
+}
+  
+  /* Add a hover effect if you want */
+
+
+.fa-instagram:hover {
+    background: #3B5998;
+}
+
+.fa-twitter:hover {
+    background: #55ACEE;
+}
+  
+  /* Set a specific color for each brand */
+  
+  /* instagram */
+.fa-instagram {
+    
+    width: 160px;
+    color: white;
+}
+  
+  /* Twitter */
+.fa-twitter {
+    width: 160px;
+    color: white;
+}
+
+.top-section a {
+    margin-bottom: 20px;
+}
