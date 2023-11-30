@@ -16,11 +16,10 @@
             <a href="https://www.instagram.com/wright_international_airport/" class="fa-brands fa-instagram"></a>
             <a href="https://twitter.com/WrightIntlAir" class="fa-brands fa-x-twitter"></a> 
         </div>
-        
     </div>
     <div class="container">
         <h1>Edit Contractor</h1>
-        <form action="/edit/<%= contractor.id %>" method="post" class="edit-form">
+        <form action="/edit/<%= contractor.id %>" method="post" class="edit-form" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="name">Name:</label>
                 <input type="text" name="name" value="<%= contractor.name %>" required>
@@ -49,7 +48,13 @@
                 <label for="date">Date:</label>
                 <input type="date" name="date" value="<%= contractor.date %>" required>
             </div>
-
+            <div class="form-group">
+                <label for="image" class="file-input-label">Choose Image</label>
+                <input type="file" id="image" name="image" accept="image/*">
+                <% if (contractor.image) { %>
+                    <img src="<%= contractor.image %>" alt="Contractor Image" style="max-width: 200px; max-height: 200px;">
+                <% } %>
+            </div>
             <div class="form-group">
                 <button type="submit">Save Changes</button>
             </div>
@@ -57,3 +62,4 @@
     </div>
 </body>
 </html>
+

@@ -142,3 +142,19 @@ a.navButton:hover {
 
     background: rgb(95, 95, 95);
 }
+
+label[for="image"] {
+    display: inline-block;
+    padding: 8px 20px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 16px;
+}
+
+input[type="file"] {
+    display: none;
+}

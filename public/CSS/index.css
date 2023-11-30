@@ -16,6 +16,10 @@ body {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
+    position: relative;
+    left: 200px; /* Width of the sidebar */
+    right: 0;
+    top: 0;
 }
 
 h1 {
@@ -145,4 +149,24 @@ a.navButton{
 a.navButton:hover {
 
     background: rgb(95, 95, 95);
+}
+
+label[for="image"] {
+    display: inline-block;
+    padding: 8px 20px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 16px;
+}
+
+label[for="image"]:hover {
+    background-color: #2980b9;
+  }
+
+input[type="file"] {
+    display: none;
 }

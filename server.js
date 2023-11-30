@@ -7,9 +7,38 @@ const app = express();
 const mongoose = require('mongoose');
 const port = 3000;
 const moment = require('moment');
+const multer = require('multer');
+const { unlink } = require('fs/promises');
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname);
+  }
+});
+
+const fileFilter = (req, file, cb) => {
+  if(
+    file.mimetype === 'image/jpeg' ||
+    file.mimetype === 'image/jpg' ||
+    file.mimetype === 'image/png'
+  ) {
+    cb(null, true);
+  }else {
+    cb(new Error('Only image files with the correct extension are allowed'), false);
+  }
+};
+
+const upload = multer({ 
+  storage: storage,
+  fileFilter: fileFilter
+});
+
 
 //Will need to change the password in order to connect to the database
-const uri = 'mongodb+srv://<yourusername>:<yourpassword>@capstonecluster.ddjdvfl.mongodb.net/?retryWrites=true&w=majority';
+const uri = 'mongodb+srv://databaseAdminCLT:nRFWz4nyvtTbd9Bj@capstonecluster.ddjdvfl.mongodb.net/?retryWrites=true&w=majority';
 
 const contractorSchema = new mongoose.Schema({
   id: String,
@@ -20,7 +49,8 @@ const contractorSchema = new mongoose.Schema({
   start_time: String,
   end_time: String,
   date: String,
-  agent_email: String
+  agent_email: String,
+  image: String
 });
 
 const Contractor = mongoose.model('contractorcollection', contractorSchema);
@@ -66,7 +96,6 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(methodOverride('_method'));
 
 const { auth } = require('express-openid-connect');
 
@@ -75,8 +104,8 @@ const config = {
   auth0Logout: true,
   secret: 'a long, randomly-generated string stored in env',
   baseURL: 'http://localhost:3000',
-  clientID: 'yourclientID',
-  issuerBaseURL: 'yourbaseurl'
+  clientID: 'dDx5cVtlA2u2EF6VQl4ENiCRS5EXFA6I',
+  issuerBaseURL: 'https://dev-odxp522sgzav5c5t.us.auth0.com'
 };
 
 // auth router attaches /login, /logout, and /callback routes to the baseURL
@@ -143,28 +172,30 @@ async function generateNewID() {
   return count + 1;
 }
 
-app.post('/add', async (req, res) => {
-  const newData = req.body;
-  newData.id = await generateNewID();
-  newData.agent_email = req.oidc.user.email;
-
-  // Format the date as "MM-DD-YYYY" before saving it
-  newData.date = moment(newData.date).format('MM-DD-YYYY');
-
+app.post('/add', upload.single('image'), async (req, res) => {
   try {
+    if (!req.file) {
+      throw new Error('Please upload an image file (JPEG, JPG, or PNG)');
+    }
+
+    const newData = req.body;
+    newData.id = await generateNewID();
+    newData.agent_email = req.oidc.user.email;
+    newData.image = `/uploads/${req.file.filename}`; // Store the path to the uploaded image
+
+    newData.date = moment(newData.date).format('MM-DD-YYYY');
+
     const result = await Contractor.create(newData);
 
-    // Render the success page with the newly added data
     res.render('success.ejs', { newData: newData });
   } catch (error) {
     console.error('Error adding data to MongoDB: ', error);
-
-    // Set an error flash message
-    req.flash('error', 'Error adding contractor to the database.');
-
-    res.status(500).send('Internal Server Error');
+    res.status(400).send(error.message || 'Error adding contractor to the database.');
   }
 });
+
+
+
 
 //Checks if the user is authenticated before redirecting to edit page
 function checkAuthenticatedForEdit(req, res, next) {
@@ -176,6 +207,7 @@ function checkAuthenticatedForEdit(req, res, next) {
   res.redirect('/login');
 }
 
+// GET request to render the edit form for a specific contractor
 app.get('/edit/:id', checkAuthenticatedForEdit, async (req, res) => {
   const contractorId = req.params.id;
 
@@ -194,7 +226,9 @@ app.get('/edit/:id', checkAuthenticatedForEdit, async (req, res) => {
   }
 });
 
-app.post('/edit/:id', async (req, res) => {
+
+
+app.post('/edit/:id', upload.single('image'), async (req, res) => {
   const contractorId = req.params.id;
   const updatedData = req.body; // Data submitted from the edit form
 
@@ -202,15 +236,91 @@ app.post('/edit/:id', async (req, res) => {
   updatedData.date = moment(updatedData.date).format('MM-DD-YYYY');
 
   try {
-      await Contractor.updateOne({ id: contractorId }, updatedData);
+    // Check if there's a new image uploaded
+    if (req.file) {
+      // If there's a new image, update the image path in the updatedData
+      updatedData.image = `/uploads/${req.file.filename}`;
+    }
 
-      // Render the success page after updating the data and pass updatedData to the template
-      res.render('editSuccess.ejs', { updatedData: updatedData });
+    // Update contractor data based on ID
+    const updateObject = {
+      name: updatedData.name,
+      company: updatedData.company,
+      items: updatedData.items,
+      location: updatedData.location,
+      start_time: updatedData.start_time,
+      end_time: updatedData.end_time,
+      date: updatedData.date
+    };
+
+    if (updatedData.image) {
+      // If an image is provided in the updated data, include it in the update query
+      updateObject.image = updatedData.image;
+    }
+
+    await Contractor.updateOne(
+      { id: contractorId },
+      { $set: updateObject }
+    );
+
+    // Render the success page after updating the data and pass updatedData to the template
+    res.render('editSuccess.ejs', { updatedData: updatedData });
   } catch (error) {
-      console.error('Error updating contractor data: ', error);
-      res.status(500).send('Internal Server Error');
+    console.error('Error updating contractor data: ', error);
+    res.status(500).send('Internal Server Error');
   }
 });
+
+app.use(methodOverride('_method'));
+
+//Checks if the user is authenticated before redirecting to delete page
+function checkAuthenticatedForDelete(req, res, next) {
+  if (req.oidc.isAuthenticated()) {
+    return next();
+  }
+
+  // User will be forced to sign in
+  res.redirect('/login');
+}
+// Route for delete confirmation page
+app.get('/deleteConfirmation/:id', checkAuthenticatedForDelete,async (req, res) => {
+  const contractorId = req.params.id;
+
+  try {
+    const contractor = await Contractor.findOne({ id: contractorId });
+
+    if (!contractor) {
+      res.status(404).send('Contractor not found');
+    } else {
+      // Render the delete confirmation page with contractor details
+      res.render('deleteConfirmation.ejs', { contractor: contractor });
+    }
+  } catch (error) {
+    console.error('Error fetching contractor data: ', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.delete('/delete/:id', async (req, res) => {
+  const contractorId = req.params.id;
+
+  try {
+    const deletedContractor = await Contractor.findByIdAndDelete(contractorId);
+
+    if (!deletedContractor) {
+      res.status(404).send('Contractor not found');
+    } else {
+      res.redirect('/');
+    }
+  } catch (error) {
+    console.error('Error deleting contractor data: ', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
+
+
 
 app.get('/auth/duo', async (req, res) => {
   if (req.oidc.isAuthenticated()) {
@@ -243,7 +353,7 @@ app.get('/auth/duo', async (req, res) => {
 
 
 const { requiresAuth } = require('express-openid-connect');
-const { Int32 } = require('mongodb');
+const { Int32, Binary } = require('mongodb');
 
 app.get('/profile', requiresAuth(), (req, res) => {
   res.send(JSON.stringify(req.oidc.user));
@@ -268,6 +378,7 @@ app.use(express.static('public'));
 app.use('/css', express.static(__dirname + 'public/CSS'));
 app.use('/js', express.static(__dirname + 'public/JS'));
 app.use('/txt', express.static(__dirname + 'public/JS'));
+app.use('/uploads', express.static(__dirname + '/uploads'));
 
 
 function checkAuthenticated(req, res, next) {

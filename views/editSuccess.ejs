@@ -19,19 +19,19 @@
     <div class="container">
     <h1>Contractor Successfully Updated</h1>
     <div class="form-group">
-    <p>The following contractor has been updated in the database:</p>
+      <% if (updatedData.image) { %>
+          <img src="<%= updatedData.image %>" alt="Contractor Image" class="profile-image">
+      <% } %>
+      <p>Name: <%= updatedData.name %></p>
+      <p>Company: <%= updatedData.company %></p>
+      <p>Items: <%= updatedData.items %></p>
+      <p>Location: <%= updatedData.location %></p>
+      <p>Start Time: <%= updatedData.start_time %></p>
+      <p>End Time: <%= updatedData.end_time %></p>
+      <p>Date: <%= updatedData.date %></p>
+  </div>
   
-      <p>Name: <%= updatedData.name %></li>
-      <p>Company: <%= updatedData.company %></li>
-      <p>Items: <%= updatedData.items %></li>
-      <p>Location: <%= updatedData.location %></li>
-      <p>Start Time: <%= updatedData.start_time %></li>
-      <p>End Time: <%= updatedData.end_time %></li>
-      <p>Date: <%= updatedData.date %></li>
-
-    </div>
     <div class="buttonCent">
-      <a href="/edit/<%= updatedData.id %>" class="button">Edit Contractor</a>
       <a href="/" class="button">Back to Home</a>
     </div>
     </div>

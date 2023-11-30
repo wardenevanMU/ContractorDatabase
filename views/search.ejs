@@ -21,16 +21,26 @@
         <% if (data && data.length > 0) { %>
           <% data.forEach(function(item) { %>
             <div class="info-box">
+              <% if (item.image) { %>
+                <div class="image-container">
+                  <img src="<%= item.image %>" alt="Contractor Image" class="profile-image">
+                </div>
+              <% } %>
+              <div class="info-content">
               <p><strong>Name:</strong> <%= item.name %></p>
               <p><strong>Company:</strong> <%= item.company %></p>
               <p><strong>Items:</strong> <%= item.items %></p>
               <p><strong>Location:</strong> <%= item.location %></p>
+              </div>
               <hr>
               <div class="info-footer">
                 <div class="timedate">
                   <p><strong>Start Time:</strong> <%= item.start_time %></p>
                   <p><strong>End Time:</strong> <%= item.end_time %></p>
                   <p><strong>Date:</strong> <%= item.date %></p>
+                </div>
+                <div class="delete-button">
+                  <a href="/deleteConfirmation/<%= item.id %>" class="buttonDelete">Delete</a>
                 </div>
                 <div class="edit-button">
                   <div class="form-group">

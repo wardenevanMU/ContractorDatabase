@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="/CSS/deleteConfirmation.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+  <div class="sidebar">
+    <div class="top-section">
+        <a href="https://assets.ctfassets.net/jaw4bomip9l3/WvPHHlwNva95H6fRWoGI0/44e928ba4f630f90d0926a7d224396d7/Terminal_Map_-_Backlit_60x54_Web_Oct_2023.pdf" target="_blank" class="navButton">Terminal Map</a>
+        <a href="/" class="navButton">Home</a>
+        <a href="/logout" class="navButton">Sign Out</a>
+    </div>
+    <div class="bottom-section">
+        <a href="https://www.instagram.com/wright_international_airport/" class="fa-brands fa-instagram"></a>
+        <a href="https://twitter.com/WrightIntlAir" class="fa-brands fa-x-twitter"></a>    
+    </div>
+  </div>
+  <div class="container">
+    <h1>Delete Confirmation</h1>
+    <div class="form-group">
+      <p>Are you sure you want to delete the following entry?</p>
+      <p><strong>Name:</strong> <%= contractor.name %></p>
+      <p><strong>Company:</strong> <%= contractor.company %></p>
+      <p><strong>Items:</strong> <%= contractor.items %></p>
+      <p><strong>Location:</strong> <%= contractor.location %></p>
+      <p><strong>Start Time:</strong> <%= contractor.start_time %></p>
+      <p><strong>End Time:</strong> <%= contractor.end_time %></p>
+      <p><strong>Date:</strong> <%= contractor.date %></p>
+      <form action="/delete/<%= contractor._id %>?_method=DELETE" method="POST">
+        <button type="submit">Delete</button>
+      </form>
+    </div>
+    </div>
+  </body>
+</html>

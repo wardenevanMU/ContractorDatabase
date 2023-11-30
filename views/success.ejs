@@ -8,7 +8,7 @@
 <div class="sidebar">
     <div class="top-section">
         <a href="https://assets.ctfassets.net/jaw4bomip9l3/WvPHHlwNva95H6fRWoGI0/44e928ba4f630f90d0926a7d224396d7/Terminal_Map_-_Backlit_60x54_Web_Oct_2023.pdf" target="_blank" class="navButton">Terminal Map</a>
-        <a href="/" class="navButton">Return to Index</a>
+        <a href="/" class="navButton">Home</a>
         <a href="/logout" class="navButton">Sign Out</a>
     </div>
     <div class="bottom-section">
@@ -20,8 +20,7 @@
     <div class="container">
     <h1>Contractor Added Successfully</h1>
     <div class="form-group">
-    <p>The following contractor has been added to the database:</p>
-    
+        <img src="<%= newData.image %>" alt="Contractor Image" class="profile-image">
         <p>Name: <%= newData.name %></p>
         <p>Company: <%= newData.company %></p>
         <p>Items: <%= newData.items %></p>
@@ -29,7 +28,6 @@
         <p>Start Time: <%= newData.start_time %></p>
         <p>End Time: <%= newData.end_time %></p>
         <p>Date: <%= newData.date %></p>
-    
     </div>
     <div class="buttonCent">
         <a href="/edit/<%= newData.id %>" class="button">Edit Entry</a>

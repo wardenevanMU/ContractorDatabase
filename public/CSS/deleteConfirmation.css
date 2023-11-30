@@ -86,16 +86,6 @@ h1 {
     margin-bottom: 30px;
 }
 
-.profile-image {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #3498db;
-    margin-bottom: 20px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-}
-
 label {
     display: block;
     margin-bottom: 5px;
@@ -147,3 +137,18 @@ a.navButton:hover {
     text-align: center;
     align-self: center;
 }
+
+button {
+    margin: 10px;
+    padding: 8px 20px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  
+  button:hover {
+    background-color: #2980b9;
+  }
