@@ -2,21 +2,39 @@
 <html>
 <head>
     <title>Success</title>
+    <link rel="stylesheet" href="/CSS/success.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
+<div class="sidebar">
+    <div class="top-section">
+        <a href="https://assets.ctfassets.net/jaw4bomip9l3/WvPHHlwNva95H6fRWoGI0/44e928ba4f630f90d0926a7d224396d7/Terminal_Map_-_Backlit_60x54_Web_Oct_2023.pdf" target="_blank" class="navButton">Terminal Map</a>
+        <a href="/" class="navButton">Return to Index</a>
+        <a href="/logout" class="navButton">Sign Out</a>
+    </div>
+    <div class="bottom-section">
+        <a href="https://www.instagram.com/wright_international_airport/" class="fa-brands fa-instagram"></a>
+        <a href="https://twitter.com/WrightIntlAir" class="fa-brands fa-x-twitter"></a>
+    </div>
+</div>
 <body>
+    <div class="container">
     <h1>Contractor Added Successfully</h1>
+    <div class="form-group">
     <p>The following contractor has been added to the database:</p>
-    <ul>
-        <li>Name: <%= newData.name %></li>
-        <li>Company: <%= newData.company %></li>
-        <li>Items: <%= newData.items %></li>
-        <li>Location: <%= newData.location %></li>
-        <li>Start Time: <%= newData.start_time %></li>
-        <li>End Time: <%= newData.end_time %></li>
-        <li>Date: <%= newData.date %></li>
-    </ul>
-
-    <a href="/edit/<%= newData.id %>">Edit Entry</a>
-    <a href="/">Return to Index</a>
+    
+        <p>Name: <%= newData.name %></p>
+        <p>Company: <%= newData.company %></p>
+        <p>Items: <%= newData.items %></p>
+        <p>Location: <%= newData.location %></p>
+        <p>Start Time: <%= newData.start_time %></p>
+        <p>End Time: <%= newData.end_time %></p>
+        <p>Date: <%= newData.date %></p>
+    
+    </div>
+    <div class="buttonCent">
+        <a href="/edit/<%= newData.id %>" class="button">Edit Entry</a>
+        <a href="/" class="button">Back To Home</a>
+    </div>
+    </div>
 </body>
 </html>

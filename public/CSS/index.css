@@ -8,9 +8,10 @@ body {
 }
 
 .content {
-    width: 1000px;
+    width: 1200px;
     margin: 0 auto;
     padding: 20px;
+    margin-left: 425px;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -68,6 +69,7 @@ button:hover {
 }
 
 .sidebar {
+    position: fixed;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     width: 200px;
     background-color: #333;
@@ -76,7 +78,10 @@ button:hover {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 130vh;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    overflow-y: auto;
 }
 
 .sidebar a {
@@ -93,9 +98,9 @@ button:hover {
 }
 
 
-.fa {
+.fa-brands {
     padding: 20px;
-    font-size: 30px;
+    font-size: 25px;
     width: 50px;
     text-align: center;
     text-decoration: none;
@@ -108,8 +113,8 @@ button:hover {
     background: #3B5998;
 }
 
-.fa-twitter:hover {
-    background: #55ACEE;
+.fa-x-twitter:hover {
+    background: #000000;
 }
   
   /* Set a specific color for each brand */
@@ -122,11 +127,22 @@ button:hover {
 }
   
   /* Twitter */
-.fa-twitter {
+.fa-x-twitter {
     width: 160px;
     color: white;
 }
 
 .top-section a {
     margin-bottom: 20px;
+}
+
+a.navButton{
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+a.navButton:hover {
+
+    background: rgb(95, 95, 95);
 }

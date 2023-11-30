@@ -94,9 +94,9 @@ button:hover {
 }
 
 
-.fa {
+.fa-brands {
     padding: 20px;
-    font-size: 30px;
+    font-size: 25px;
     width: 50px;
     text-align: center;
     text-decoration: none;
@@ -105,12 +105,12 @@ button:hover {
   /* Add a hover effect if you want */
 
 
-.fa-instagram:hover {
+  .fa-instagram:hover {
     background: #3B5998;
 }
 
-.fa-twitter:hover {
-    background: #55ACEE;
+.fa-x-twitter:hover {
+    background: #000000;
 }
   
   /* Set a specific color for each brand */
@@ -123,11 +123,22 @@ button:hover {
 }
   
   /* Twitter */
-.fa-twitter {
+.fa-x-twitter {
     width: 160px;
     color: white;
 }
 
 .top-section a {
     margin-bottom: 20px;
+}
+
+a.navButton{
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+a.navButton:hover {
+
+    background: rgb(95, 95, 95);
 }

@@ -1,19 +1,20 @@
+<!DOCTYPE html>
 <html>
 <head>
     <title>Edit Contractor</title>
     <link rel="stylesheet" href="/CSS/edit.css"> <!-- Link to your CSS file -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
     <div class="sidebar">
         <div class="top-section">
-            <a href="https://assets.ctfassets.net/jaw4bomip9l3/WvPHHlwNva95H6fRWoGI0/44e928ba4f630f90d0926a7d224396d7/Terminal_Map_-_Backlit_60x54_Web_Oct_2023.pdf" target="_blank">Terminal Map</a>
-            <a href="/" class="return-link">Return to Index</a>
-            <a href="/logout">Sign Out</a>
+            <a href="https://assets.ctfassets.net/jaw4bomip9l3/WvPHHlwNva95H6fRWoGI0/44e928ba4f630f90d0926a7d224396d7/Terminal_Map_-_Backlit_60x54_Web_Oct_2023.pdf" target="_blank" class="navButton">Terminal Map</a>
+            <a href="/" class="navButton">Home</a>
+            <a href="/logout" class="navButton">Sign Out</a>
         </div>
         <div class="bottom-section">
-            <a href="https://www.instagram.com/wright_international_airport/" class="fa fa-instagram"></a>
-            <a href="https://twitter.com/WrightIntlAir" class="fa fa-twitter"></a>    
+            <a href="https://www.instagram.com/wright_international_airport/" class="fa-brands fa-instagram"></a>
+            <a href="https://twitter.com/WrightIntlAir" class="fa-brands fa-x-twitter"></a> 
         </div>
         
     </div>
@@ -48,7 +49,6 @@
                 <label for="date">Date:</label>
                 <input type="date" name="date" value="<%= contractor.date %>" required>
             </div>
-            <!-- Add similar div.form-group blocks for other input fields -->
 
             <div class="form-group">
                 <button type="submit">Save Changes</button>

@@ -1,39 +1,49 @@
 <html>
+  <head>
+    <link rel="stylesheet" href="/CSS/search.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" /> 
+  </head>
   <body>
-    <h1>Search Results for <%= searchQuery %></h1>
-    <% if (data && data.length > 0) { %>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Company</th>
-            <th>Items</th>
-            <th>Location</th>
-            <th>Start Time</th>
-            <th>End Time</th>
-            <th>Date</th>
-          </tr>
-        </thead>
-        <tbody>
+    <div class="container">
+      <div class="sidebar">
+        <div class="top-section">
+            <a href="https://assets.ctfassets.net/jaw4bomip9l3/WvPHHlwNva95H6fRWoGI0/44e928ba4f630f90d0926a7d224396d7/Terminal_Map_-_Backlit_60x54_Web_Oct_2023.pdf" target="_blank" class="navButton">Terminal Map</a>
+            <a href="/" class="navButton">Home</a>
+            <a href="/logout" class="navButton">Sign Out</a>
+        </div>
+        <div class="bottom-section">
+          <a href="https://www.instagram.com/wright_international_airport/" class="fa-brands fa-instagram"></a>
+          <a href="https://twitter.com/WrightIntlAir" class="fa-brands fa-x-twitter"></a>
+        </div>
+      </div>
+      <div class="main-content">
+        <h1>Search Results for <%= searchQuery %></h1>
+        <% if (data && data.length > 0) { %>
           <% data.forEach(function(item) { %>
-            <tr>
-              <td><%= item.name %></td>
-              <td><%= item.company %></td>
-              <td><%= item.items %></td>
-              <td><%= item.location %></td>
-              <td><%= item.start_time %></td>
-              <td><%= item.end_time %></td>
-              <td><%= item.date %></td>
-              <td>
-                <a href="/edit/<%= item.id %>">Edit</a>
-              </td>
-            </tr>
+            <div class="info-box">
+              <p><strong>Name:</strong> <%= item.name %></p>
+              <p><strong>Company:</strong> <%= item.company %></p>
+              <p><strong>Items:</strong> <%= item.items %></p>
+              <p><strong>Location:</strong> <%= item.location %></p>
+              <hr>
+              <div class="info-footer">
+                <div class="timedate">
+                  <p><strong>Start Time:</strong> <%= item.start_time %></p>
+                  <p><strong>End Time:</strong> <%= item.end_time %></p>
+                  <p><strong>Date:</strong> <%= item.date %></p>
+                </div>
+                <div class="edit-button">
+                  <div class="form-group">
+                    <a href="/edit/<%= item.id %>" class="button">Edit</a>
+                  </div>
+                </div>
+              </div>
+            </div>
           <% }); %>
-        </tbody>
-      </table>
-    <% } else { %>
-      <p>No matching data found.</p>
-    <% } %>
-    <a href="/">Go back to Home</a>
+        <% } else { %>
+          <p>No matching data found.</p>
+        <% } %>
+      </div>
+    </div>
   </body>
 </html>
