@@ -37,11 +37,9 @@ const upload = multer({
 });
 
 
-//Will need to change the password in order to connect to the database
-const uri = 'mongodb+srv://databaseAdminCLT:nRFWz4nyvtTbd9Bj@capstonecluster.ddjdvfl.mongodb.net/?retryWrites=true&w=majority';
+const uri = 'mongodb+srv://<yourusername>:<yourpassword>@capstonecluster.ddjdvfl.mongodb.net/test?retryWrites=true&w=majority';
 
 const contractorSchema = new mongoose.Schema({
-  id: String,
   name: String,
   company: String,
   items: String,
@@ -66,7 +64,6 @@ async function connect(){
 
 connect();
 
-const bcrypt = require('bcrypt');
 const passport = require('passport');
 const flash = require('express-flash');
 const session = require('express-session');
@@ -104,8 +101,8 @@ const config = {
   auth0Logout: true,
   secret: 'a long, randomly-generated string stored in env',
   baseURL: 'http://localhost:3000',
-  clientID: 'dDx5cVtlA2u2EF6VQl4ENiCRS5EXFA6I',
-  issuerBaseURL: 'https://dev-odxp522sgzav5c5t.us.auth0.com'
+  clientID: 'yourclientID',
+  issuerBaseURL: 'yourbaseurl'
 };
 
 // auth router attaches /login, /logout, and /callback routes to the baseURL
@@ -162,26 +159,16 @@ app.post('/search', async (req, res) => {
   }
 });
 
-
-
-
-
-
-async function generateNewID() {
-  const count = await Contractor.countDocuments();
-  return count + 1;
-}
-
 app.post('/add', upload.single('image'), async (req, res) => {
   try {
-    if (!req.file) {
-      throw new Error('Please upload an image file (JPEG, JPG, or PNG)');
+    const newData = {}; // Initialize newData here
+
+    if (req.file) {
+      newData.image = `/uploads/${req.file.filename}`; // Store the path to the uploaded image
     }
 
-    const newData = req.body;
-    newData.id = await generateNewID();
+    Object.assign(newData, req.body); // Merge req.body properties into newData
     newData.agent_email = req.oidc.user.email;
-    newData.image = `/uploads/${req.file.filename}`; // Store the path to the uploaded image
 
     newData.date = moment(newData.date).format('MM-DD-YYYY');
 
@@ -207,12 +194,11 @@ function checkAuthenticatedForEdit(req, res, next) {
   res.redirect('/login');
 }
 
-// GET request to render the edit form for a specific contractor
 app.get('/edit/:id', checkAuthenticatedForEdit, async (req, res) => {
   const contractorId = req.params.id;
 
   try {
-    const contractor = await Contractor.findOne({ id: contractorId });
+    const contractor = await Contractor.findById(contractorId);
 
     if (!contractor) {
       // Contractor not found, handle this case (e.g., display an error message)
@@ -226,42 +212,23 @@ app.get('/edit/:id', checkAuthenticatedForEdit, async (req, res) => {
   }
 });
 
-
-
 app.post('/edit/:id', upload.single('image'), async (req, res) => {
   const contractorId = req.params.id;
-  const updatedData = req.body; // Data submitted from the edit form
-
-  // Convert the date from "YYYY-MM-DD" to "MM-DD-YYYY" format
-  updatedData.date = moment(updatedData.date).format('MM-DD-YYYY');
 
   try {
+    const updatedData = req.body; // Initialize updatedData here
+
+    // Convert the date from "YYYY-MM-DD" to "MM-DD-YYYY" format
+    updatedData.date = moment(updatedData.date).format('MM-DD-YYYY');
+
     // Check if there's a new image uploaded
     if (req.file) {
       // If there's a new image, update the image path in the updatedData
       updatedData.image = `/uploads/${req.file.filename}`;
     }
 
-    // Update contractor data based on ID
-    const updateObject = {
-      name: updatedData.name,
-      company: updatedData.company,
-      items: updatedData.items,
-      location: updatedData.location,
-      start_time: updatedData.start_time,
-      end_time: updatedData.end_time,
-      date: updatedData.date
-    };
-
-    if (updatedData.image) {
-      // If an image is provided in the updated data, include it in the update query
-      updateObject.image = updatedData.image;
-    }
-
-    await Contractor.updateOne(
-      { id: contractorId },
-      { $set: updateObject }
-    );
+    // Update contractor data based on _id
+    await Contractor.findByIdAndUpdate(contractorId, updatedData);
 
     // Render the success page after updating the data and pass updatedData to the template
     res.render('editSuccess.ejs', { updatedData: updatedData });
@@ -270,6 +237,8 @@ app.post('/edit/:id', upload.single('image'), async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+
+
 
 app.use(methodOverride('_method'));
 
@@ -283,16 +252,15 @@ function checkAuthenticatedForDelete(req, res, next) {
   res.redirect('/login');
 }
 // Route for delete confirmation page
-app.get('/deleteConfirmation/:id', checkAuthenticatedForDelete,async (req, res) => {
+app.get('/deleteConfirmation/:id', checkAuthenticatedForDelete, async (req, res) => {
   const contractorId = req.params.id;
 
   try {
-    const contractor = await Contractor.findOne({ id: contractorId });
+    const contractor = await Contractor.findById(contractorId);
 
     if (!contractor) {
       res.status(404).send('Contractor not found');
     } else {
-      // Render the delete confirmation page with contractor details
       res.render('deleteConfirmation.ejs', { contractor: contractor });
     }
   } catch (error) {
@@ -317,6 +285,7 @@ app.delete('/delete/:id', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+
 
 
 

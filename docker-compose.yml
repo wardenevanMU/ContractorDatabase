@@ -1,0 +1,19 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"  # Map host port to container port
+    environment:
+      - NODE_ENV=production  # Set your environment variables here
+
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"  # Map host port to container port
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=yourusername
+      - MONGO_INITDB_ROOT_PASSWORD=yourpassword
+

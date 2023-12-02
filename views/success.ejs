@@ -20,7 +20,11 @@
     <div class="container">
     <h1>Contractor Added Successfully</h1>
     <div class="form-group">
-        <img src="<%= newData.image %>" alt="Contractor Image" class="profile-image">
+        <% if (newData.image) { %>
+            <div class="image-container">
+              <img src="<%= newData.image %>" alt="Contractor Image" class="profile-image">
+            </div>
+          <% } %>
         <p>Name: <%= newData.name %></p>
         <p>Company: <%= newData.company %></p>
         <p>Items: <%= newData.items %></p>
@@ -30,7 +34,6 @@
         <p>Date: <%= newData.date %></p>
     </div>
     <div class="buttonCent">
-        <a href="/edit/<%= newData.id %>" class="button">Edit Entry</a>
         <a href="/" class="button">Back To Home</a>
     </div>
     </div>
