@@ -101,7 +101,7 @@ const config = {
   auth0Logout: true,
   secret: 'a long, randomly-generated string stored in env',
   baseURL: 'http://localhost:3000',
-  clientID: 'yourclientID',
+  clientID: 'yourclientid',
   issuerBaseURL: 'yourbaseurl'
 };
 
