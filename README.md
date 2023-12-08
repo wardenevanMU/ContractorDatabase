@@ -45,7 +45,6 @@ Click on Okta SSO and log in using the credentials listed below:
 ### Password:
 Senior+Capstone*2023
 
-**PLEASE COMMUNICATE AMONGST EACH OTHER ABOUT WHICH USERNAME YOU ARE USING. Cisco Duo will ask you for first-time account set-up steps for verifying your credentials. Once you sign into the account, the account is yours.**![Screenshot (267)](https://github.com/wardenevanMU/ContractorDatabase/assets/89539508/4500536f-cfc9-4523-875e-cd4f2a0fa640)
-
+**PLEASE COMMUNICATE AMONGST EACH OTHER ABOUT WHICH USERNAME YOU ARE USING. Cisco Duo will ask you for first-time account set-up steps for verifying your credentials. Once you sign into the account, the account is yours.**
 
 
