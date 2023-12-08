@@ -5,15 +5,15 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"  # Map host port to container port
+      - "3000:3000"  
     environment:
-      - NODE_ENV=production  # Set your environment variables here
+      - NODE_ENV=production  
 
   mongodb:
     image: mongo
     ports:
-      - "27017:27017"  # Map host port to container port
+      - "27017:27017"  
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=username
-      - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGO_INITDB_ROOT_USERNAME=databaseAdminCLT
+      - MONGO_INITDB_ROOT_PASSWORD=nRFWz4nyvtTbd9Bj
 

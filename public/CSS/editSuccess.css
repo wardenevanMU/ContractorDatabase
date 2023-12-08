@@ -12,7 +12,6 @@ h1 {
     text-align: center;
 }
 
-/* Sidebar styles */
 .sidebar {
     width: 200px;
     background-color: #333;
@@ -31,7 +30,6 @@ h1 {
     color: #fff;
 }
 
-/* Font Awesome icons */
 .fa-brands {
     padding: 20px;
     font-size: 25px;
@@ -48,22 +46,19 @@ h1 {
     background: #000000;
 }
   
-  /* Set a specific color for each brand */
-  
-  /* instagram */
 .fa-instagram {
     
     width: 160px;
     color: white;
 }
   
-  /* Twitter */
+
 .fa-x-twitter {
     width: 160px;
     color: white;
 }
 
-/* Content container */
+
 .container {
     width: 800px;
     margin: 0 auto;
@@ -75,7 +70,7 @@ h1 {
     overflow-x: auto;
 }
 
-/* Form and input styles */
+
 .edit-form {
     margin-top: 20px;
 }
@@ -113,7 +108,6 @@ a.button:hover {
     background-color: #2980b9;
 }
 
-/* Return link */
 .return-link {
     display: block;
     text-align: center;

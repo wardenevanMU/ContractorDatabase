@@ -37,7 +37,7 @@ const upload = multer({
 });
 
 
-const uri = 'mongodb+srv://<yourusername>:<yourpassword>@capstonecluster.ddjdvfl.mongodb.net/test?retryWrites=true&w=majority';
+const uri = 'mongodb+srv://databaseAdminCLT:nRFWz4nyvtTbd9Bj@capstonecluster.ddjdvfl.mongodb.net/test?retryWrites=true&w=majority';
 
 const contractorSchema = new mongoose.Schema({
   name: String,
@@ -101,12 +101,29 @@ const config = {
   auth0Logout: true,
   secret: 'a long, randomly-generated string stored in env',
   baseURL: 'http://localhost:3000',
-  clientID: 'yourclientid',
-  issuerBaseURL: 'yourbaseurl'
+  clientID: 'dDx5cVtlA2u2EF6VQl4ENiCRS5EXFA6I',
+  issuerBaseURL: 'https://dev-odxp522sgzav5c5t.us.auth0.com'
 };
 
 // auth router attaches /login, /logout, and /callback routes to the baseURL
 app.use(auth(config));
+
+function checkAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  //User will be forced to login
+  res.redirect('/login');
+}
+
+function checkNotAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return res.redirect('/');
+  }
+
+  next();
+}
+
 
 //req.isAuthenticated is provided from the auth router
 app.get('/', async (req, res) => {
@@ -123,16 +140,6 @@ app.get('/', async (req, res) => {
   } else{
     res.render('login.ejs')
   };
-});
-
-app.get('/callback', (req, res) => {
-  // Check if there was an error in the authentication flow
-  if (req.query.error === 'BadRequestError') {
-    // Render the custom error page with an access denied message
-    res.render('accessDenied.ejs');
-  } else {
-    res.render('login.ejs');
-  }
 });
 
 
@@ -183,18 +190,7 @@ app.post('/add', upload.single('image'), async (req, res) => {
 
 
 
-
-//Checks if the user is authenticated before redirecting to edit page
-function checkAuthenticatedForEdit(req, res, next) {
-  if (req.oidc.isAuthenticated()) {
-    return next();
-  }
-
-  // User will be forced to sign in
-  res.redirect('/login');
-}
-
-app.get('/edit/:id', checkAuthenticatedForEdit, async (req, res) => {
+app.get('/edit/:id', checkAuthenticated, async (req, res) => {
   const contractorId = req.params.id;
 
   try {
@@ -243,7 +239,7 @@ app.post('/edit/:id', upload.single('image'), async (req, res) => {
 app.use(methodOverride('_method'));
 
 //Checks if the user is authenticated before redirecting to delete page
-function checkAuthenticatedForDelete(req, res, next) {
+function checkAuthenticated(req, res, next) {
   if (req.oidc.isAuthenticated()) {
     return next();
   }
@@ -252,7 +248,7 @@ function checkAuthenticatedForDelete(req, res, next) {
   res.redirect('/login');
 }
 // Route for delete confirmation page
-app.get('/deleteConfirmation/:id', checkAuthenticatedForDelete, async (req, res) => {
+app.get('/deleteConfirmation/:id', checkAuthenticated, async (req, res) => {
   const contractorId = req.params.id;
 
   try {
@@ -287,40 +283,6 @@ app.delete('/delete/:id', async (req, res) => {
 });
 
 
-
-
-
-
-app.get('/auth/duo', async (req, res) => {
-  if (req.oidc.isAuthenticated()) {
-    try {
-      const agentEmail = req.oidc.user.email; // Get the user's email after Auth0 login
-
-      // Check if the user is already authenticated with Duo, if not, initiate Duo MFA
-      if (!userHasCompletedDuoMFA(agentEmail)) {
-        // Generate a Duo state
-        const state = duoClient.generateState();
-  
-        // Create an authentication URL for the user
-        const authUrl = duoClient.createAuthUrl(agentEmail, state);
-  
-        // Redirect the user to the Duo authentication page
-        res.redirect(authUrl);
-      } else {
-        // The user has already completed Duo MFA, so you can redirect them to the desired page.
-        res.redirect('/dashboard');
-      }
-    } catch (error) {
-      console.error('Error during Duo MFA initiation:', error);
-      res.status(500).send('Duo MFA Error');
-    }
-  } else {
-    // User is not authenticated with Auth0, handle this case
-    res.status(401).send('Not authenticated with Auth0');
-  }
-});
-
-
 const { requiresAuth } = require('express-openid-connect');
 const { Int32, Binary } = require('mongodb');
 
@@ -348,23 +310,7 @@ app.use('/css', express.static(__dirname + 'public/CSS'));
 app.use('/js', express.static(__dirname + 'public/JS'));
 app.use('/txt', express.static(__dirname + 'public/JS'));
 app.use('/uploads', express.static(__dirname + '/uploads'));
-
-
-function checkAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-
-  res.redirect('/login');
-}
-
-function checkNotAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return res.redirect('/');
-  }
-
-  next();
-}
+app.use('/images', express.static(__dirname + '/images'));
 
 
 app.listen(port, () => {

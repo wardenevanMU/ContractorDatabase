@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="https://fonts.googleapis..com/css2?family=Dosis:wght@200&family=Gantari&family=Roboto&display=swap">
     <script src="https://kit.fontawesome.com/4aa1498f38.js" crossorigin="anonymous" ></script>
     <link rel="stylesheet" href="CSS/login.css">
-    <link rel="stylesheet" href="CSS/login1.css">
     <a href="https://www.flaticon.com/free-icons/button" title="button icons"></a>
     <title>Login Page</title>
     <style>
@@ -20,34 +19,18 @@
     </style>
 </head>
 <body>
-    <main>
-        <header>
-            <nav>
-                <div class="container">
-                    <h1>CLT</h1>
-                    <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">About</a></li>
-                        <li><a href="#">Services</a></li>
-                        <li><a href="#">Portfolio</a></li>
-                        <li><a href="#">Contact</a></li>
-                    </ul>
-                </div>
-            </nav>
-        </header>
-        <div class="half-circle"></div>
-        <div class="container">
-            <div class="login-card">
-                <i class="fa-solid fa-code" id="logo"></i>
-                <h3>Welcome</h3>
-                <a href="/login" id="okta-sso-button" class="okta-button">Okta Single Sign On</a>
-                <div class="error">
-                    <% if (messages.error) { %>
-                        <%= messages.error %>
-                            <% } %>
-                </div>
+    <div class="container">
+        <div class="login-card">
+            <img src="images/WIA_2.png" alt="Logo" id="logo-image">
+            <h3>Welcome</h3>
+            <a href="/login" id="okta-sso-button" class="button">Okta Single Sign On</a>
+            <div class="error">
+                <% if (messages.error) { %>
+                    <%= messages.error %>
+                <% } %>
             </div>
         </div>
-    </main>
+    </div>
 </body>
+
 </html>

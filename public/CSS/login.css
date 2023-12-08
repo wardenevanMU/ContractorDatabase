@@ -1,21 +1,29 @@
 body {
-    font-family: 'Roboto' ,sans-serif;
+    font-family: 'Roboto', sans-serif;
     padding: 0;
     margin: 0;
-    
-    background-color: #00778F
+    background-color: #2980b9;
 }
 
 .login-card {
     text-align: center;
     width: 100% ;
-    height: 650px;
+    height: 550px;
     margin-top: 10rem;
-    background: #50a5b6;
+    background: #ffffff;
     border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(5.3px);
     border: 1px solid rgba(255, 255, 255, .14);
+    padding-top: 80px;
+}
+
+#logo-image {
+    width: 100px;
+    height: 100px; 
+    margin-bottom: 80px; 
+    border-radius: 50%; 
+    object-fit: cover; 
 }
 
 .container {
@@ -23,125 +31,23 @@ body {
     width: 30%;
 }
 
-#logo {
-    padding-top: 60px;
-    padding-bottom: 40px;
-    width: 200px;
-}
-
-.login-fields {
-    font-size: 18px;
-    width: 50%;
-    margin: auto;
-    margin-top: 40px;
-}
-
-.login-fields input {
-    width: 100%;
-    text-align: center;
-    border-radius: 20px;
-    height: 40px;
+a.button {
+    padding: 8px 20px;
+    background-color: #3498db;
+    color: #fff;
     border: none;
-    background-color: rgb(255,255,255);
-}
-
-input:focus {
-    outline: none;
-}
-
-.icon-inside {
-    position: relative;
-    margin-bottom: 40px;
-}
-
-.icon-inside i {
-    position: absolute;
-    left: 10px;
-    top: 13px;
-}
-
-#login-button {
-    font-size: 19px;
-    background-color: #0f0f0f;
-    color: white;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 40px;
+    border-radius: 5px;
     cursor: pointer;
-    display: block;
-    width: 230px;
-    height: 50px;
-    border: none;
-    border-radius: 30px;
-
-}
-#okta-button {
-    font-size: 19px;
-    background-color: #0f0f0f;
-    color: white;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 40px;
-    cursor: pointer;
-    display: block;
-    width: 230px;
-    height: 50px;
-    border: none;
-    border-radius: 30px;
-}
-
-
-#login-button i {
-    padding-right: 10px;
-}
-
-#new-acc {
-    padding-top: 20px;
-    font-size: 17px;
-    text-align: center;
-}
-
-
-#new-acc a {
     text-decoration: none;
-    color: rgb(97, 78, 8);
 }
 
-.social-media ul {
-    list-style: none;
-    display: flex;
-    margin-top: 35px;
-    padding: 0;
-    justify-content: space-evenly;
-}
-
-.social-media li {
-    cursor: pointer;
-    font-size: 30px;
+a.button:hover {
+    background-color: #2980b9;
 }
 
 h3 {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
-.error {
-    width: 100%;
-    text-align: center;
-    border-radius: 20px;
-    height: 20px;
-    border: none;
-    color: red;
-}
 
-.half-circle {
-    width: 1920px; /* Set the width to create a half-circle */
-    height: 240px; /* Set the height to create a full circle (it will be clipped to half) */
-    background-image: url('<%= imagePath %>'); /* Use EJS syntax to include the image path */
-    background-color: #ffffff; /* Set the background color of the half-circle */
-    border-radius: 0 0 50% 50%; /* Border radius to create a half-circle */
-    position: absolute; /* Position the half-circle relative to its parent container */
-    top: 48px; /* Align the bottom of the half-circle with the bottom of the container */
-    left: 50%; /* Center the half-circle horizontally */
-    transform: translateX(-50%); /* Adjust for the half of the width */
-    background-size: cover; /* Adjust the background size as needed */
-}
+

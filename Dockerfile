@@ -1,4 +1,3 @@
-# Use Node.js as base image
 FROM node:latest
 
 # Set the working directory in the container
@@ -30,10 +29,10 @@ RUN npm install
 # Copy the rest of the application files to the container
 COPY . .
 
-# Expose the port your app runs on
+
 EXPOSE 3000
 
-# Command to run the application
+
 CMD ["node", "server.js"]
 
 

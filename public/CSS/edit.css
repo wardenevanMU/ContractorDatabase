@@ -102,10 +102,8 @@ button:hover {
     text-decoration: none;
 }
   
-  /* Add a hover effect if you want */
 
-
-  .fa-instagram:hover {
+.fa-instagram:hover {
     background: #3B5998;
 }
 
@@ -113,16 +111,13 @@ button:hover {
     background: #000000;
 }
   
-  /* Set a specific color for each brand */
-  
-  /* instagram */
+
 .fa-instagram {
     
     width: 160px;
     color: white;
 }
   
-  /* Twitter */
 .fa-x-twitter {
     width: 160px;
     color: white;
