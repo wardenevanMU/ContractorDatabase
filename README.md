@@ -25,11 +25,11 @@ Type `docker-compose up` in the terminal. Docker will create an image of the app
 
 Go to Docker Desktop once the image has been created. Look for Contractor Database in Docker Desktop.
 
-![Docker Desktop](link_to_docker_desktop_image)
+![Docker Desktop Image](https://github.com/wardenevanMU/ContractorDatabase/assets/89539508/fc317ef4-1ef1-4445-82ea-6f3e0a3094b7)
 
 Navigate to your web browser and type `localhost:3000`.
 
-![Localhost](link_to_localhost_image)
+![Localhost](https://github.com/wardenevanMU/ContractorDatabase/assets/89539508/7a9097e8-be7b-46ce-853f-67d37e15b0eb)
 
 Click on Okta SSO and log in using the credentials listed below:
 
@@ -46,5 +46,4 @@ Click on Okta SSO and log in using the credentials listed below:
 Senior+Capstone*2023
 
 **PLEASE COMMUNICATE AMONGST EACH OTHER ABOUT WHICH USERNAME YOU ARE USING. Cisco Duo will ask you for first-time account set-up steps for verifying your credentials. Once you sign into the account, the account is yours.**
-
 
