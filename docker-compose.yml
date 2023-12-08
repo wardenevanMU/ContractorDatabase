@@ -1,0 +1,19 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"  
+    environment:
+      - NODE_ENV=production  
+
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"  
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=databaseAdminCLT
+      - MONGO_INITDB_ROOT_PASSWORD=nRFWz4nyvtTbd9Bj
+

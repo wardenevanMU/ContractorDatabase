@@ -1,0 +1,39 @@
+<html>
+  <head>
+    <title>Edit Success</title>
+    <link rel="stylesheet" href="/CSS/editSuccess.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  </head>
+  <div class="sidebar">
+    <div class="top-section">
+        <a href="https://assets.ctfassets.net/jaw4bomip9l3/WvPHHlwNva95H6fRWoGI0/44e928ba4f630f90d0926a7d224396d7/Terminal_Map_-_Backlit_60x54_Web_Oct_2023.pdf" target="_blank" class="navButton">Terminal Map</a>
+        <a href="/" class="navButton">Home</a>
+        <a href="/logout" class="navButton">Sign Out</a>
+    </div>
+    <div class="bottom-section">
+      <a href="https://www.instagram.com/wright_international_airport/" class="fa-brands fa-instagram"></a>
+      <a href="https://twitter.com/WrightIntlAir" class="fa-brands fa-x-twitter"></a>
+    </div>
+</div>
+  <body>
+    <div class="container">
+    <h1>Contractor Successfully Updated</h1>
+    <div class="form-group">
+      <% if (updatedData.image) { %>
+          <img src="<%= updatedData.image %>" alt="Contractor Image" class="profile-image">
+      <% } %>
+      <p>Name: <%= updatedData.name %></p>
+      <p>Company: <%= updatedData.company %></p>
+      <p>Items: <%= updatedData.items %></p>
+      <p>Location: <%= updatedData.location %></p>
+      <p>Start Time: <%= updatedData.start_time %></p>
+      <p>End Time: <%= updatedData.end_time %></p>
+      <p>Date: <%= updatedData.date %></p>
+  </div>
+  
+    <div class="buttonCent">
+      <a href="/" class="button">Back to Home</a>
+    </div>
+    </div>
+  </body>
+</html>
